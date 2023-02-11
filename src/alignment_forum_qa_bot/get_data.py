@@ -6,7 +6,6 @@ import requests
 
 def main():
     download_posts()
-    # download_comments()
 
 
 def get_posts():
@@ -21,16 +20,6 @@ def download_posts():
     data_dir.mkdir(parents=True, exist_ok=True)
     with (data_dir / "posts.json").open("w") as f:
         json.dump(posts, f, indent=2)
-
-
-def download_comments():
-    comments = get_comments()
-    with Path(os.environ["DATA_DIR"], "comments.json").open("w") as f:
-        json.dump(comments, f, indent=2)
-
-
-def get_comments():
-    ...
 
 
 if __name__ == "__main__":
