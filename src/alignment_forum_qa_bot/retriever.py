@@ -1,18 +1,17 @@
 from abc import ABC
 from pathlib import Path
 import pickle
-from typing import TypedDict
+from typing import TypedDict, List
 import os
+import json
 
 import pandas as pd
-
-from alignment_forum_qa_bot.normalizer import Normalizer
-
 from sklearn.metrics.pairwise import cosine_similarity
-
-
 from dotenv import load_dotenv
 
+
+from alignment_forum_qa_bot.normalizer import Normalizer
+from alignment_forum_qa_bot.get_data import download_posts
 from alignment_forum_qa_bot.parse_af_post_json import parse_posts_raw
 
 load_dotenv()
@@ -28,12 +27,12 @@ class Retriever(ABC):
     def __init__(self):
         ...
 
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         raise NotImplementedError
 
 
 class StubRetriever(Retriever):
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         return [
             {
                 "title": "RLFH IS SHIT",
@@ -60,9 +59,16 @@ class StubRetriever(Retriever):
 
 class KeywordSearchRetriever(Retriever):
     def __init__(self):
-        self.paragraphs = parse_posts_raw()
+        data_dir = Path(os.environ["DATA_DIR"])
 
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+        if not data_dir.exists():
+            download_posts()
+
+        with open(data_dir / "posts.json") as f:
+            posts = json.load(f)
+        self.paragraphs = parse_posts_raw(posts)
+
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         relevant_paragraphs = self.paragraphs[self.paragraphs["paragraph"].apply(lambda x: query in x)]
         return relevant_paragraphs.to_dict(orient="records")
 

@@ -1,8 +1,9 @@
+from typing import List, Dict
+
 from pathlib import Path
 import json
 import pandas as pd
 from bs4 import BeautifulSoup
-from multiprocessing import Pool
 import unicodedata
 from typing import Any
 from dotenv import load_dotenv
@@ -20,7 +21,7 @@ def html_to_paragraphs(html_str: str) -> str:
     return texts
 
 
-def read_posts_json() -> list[dict[str, Any]]:
+def read_posts_json() -> List[Dict[str, Any]]:
     data_dir = Path(os.environ["DATA_DIR"])
     with (data_dir / "posts.json").open("r") as f:
         comments_raw = json.load(f)
@@ -46,8 +47,7 @@ def parse_posts_raw() -> pd.DataFrame:
 
     posts_raw["author"] = posts_raw.user.apply(lambda e: e["username"])
     posts_raw = posts_raw.drop(columns="user")
-    with Pool() as p:
-        bodies = p.map(html_to_paragraphs, posts_raw["htmlBody"].to_list())
+    bodies = list(map(html_to_paragraphs, posts_raw["htmlBody"].to_list()))
     posts_raw["paragraph"] = bodies
     posts_raw["n_paragraphs"] = posts_raw["paragraph"].apply(len)
     posts_raw = posts_raw.explode(column="paragraph", ignore_index=True)

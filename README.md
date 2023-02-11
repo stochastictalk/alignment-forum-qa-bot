@@ -2,6 +2,17 @@
 
 `ai_forum_qa_bot` is a Python package that allows question-answer interaction with the entire corpus of Alignment Forum posts. 
 
+## Quickstart
+
+The example below shows how to run a question against the 
+
+```
+from ai_forum_qa_bot import QABot
+
+bot = QABot(openai_api_key=...)
+user_query = "Tell me what the promising routes are to become a cyborg today."
+response = bot.query(query=user_query) # Returns a string containing the bot's answer. Easy peasy!
+```
 
 ## Developer Quickstart
 
