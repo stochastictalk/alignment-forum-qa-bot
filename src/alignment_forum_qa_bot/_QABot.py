@@ -44,7 +44,7 @@ class QABot:
         author_post_pairs = list(posts_by_author.items())
         result = ""
         for author, posts in author_post_pairs[:5]:
-            result += f"{author}'s views:\n"
+            result += f"{author}'s views:\n\n"
             prompt_for_author_posts = self._get_prompt_for_author_posts(posts, query_text)
             completion = self._get_response_for_author_prompt(prompt_for_author_posts)
             result += completion + "\n\n"
@@ -55,7 +55,7 @@ class QABot:
         I'm going to show you some sample paragraphs written by a user on the Alignment Forum.
         Please summarize the views of this author on {query_text} in less than 200 words.
         """
-        for post in posts[:20]:
+        for post in posts[:10]:
             prompt += f"\n\n{post}\n\n"
         prompt += "Answer:"
         return prompt
