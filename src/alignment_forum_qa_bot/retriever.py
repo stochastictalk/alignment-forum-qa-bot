@@ -3,7 +3,6 @@ from pathlib import Path
 import pickle
 from typing import TypedDict, List
 import os
-import json
 
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -64,9 +63,7 @@ class KeywordSearchRetriever(Retriever):
         if not data_dir.exists():
             download_posts()
 
-        with open(data_dir / "posts.json") as f:
-            posts = json.load(f)
-        self.paragraphs = parse_posts_raw(posts)
+        self.paragraphs = parse_posts_raw()
 
     def retrieve(self, query: str) -> List[RetrievedParagraph]:
         relevant_paragraphs = self.paragraphs[self.paragraphs["paragraph"].apply(lambda x: query in x)]
@@ -82,7 +79,7 @@ class TFIDFRetreiver(Retriever):
         self.corpus_vectors = self.bow_transform(self.normalized_paragraphs)
         self.threshold = threshold
 
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         query = self.normalizer.norm_sent(query)
         query_vector = self.tfidf_vectorizer.transform([query])
         scores = cosine_similarity(query_vector, self.corpus_vectors).flatten()
