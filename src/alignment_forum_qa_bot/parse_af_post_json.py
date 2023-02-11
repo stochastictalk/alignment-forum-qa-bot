@@ -5,6 +5,10 @@ from bs4 import BeautifulSoup
 from multiprocessing import Pool
 import unicodedata
 from typing import Any
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 def html_to_paragraphs(html_str: str) -> str:
@@ -17,8 +21,8 @@ def html_to_paragraphs(html_str: str) -> str:
 
 
 def read_comments_json() -> list[dict[str, Any]]:
-    # data_dir = Path(os.environ["DATA_DIR"])
-    data_dir = Path("/home/torsten/coding_projects/alignment-forum-qa-bot_data")
+
+    data_dir = Path(os.environ["DATA_DIR"])
     with (data_dir / "posts.json").open("r") as f:
         comments_raw = json.load(f)
     return comments_raw
