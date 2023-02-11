@@ -30,7 +30,8 @@ requires-python = ">=3.7"
 dependencies = [
     "tqdm>=4.64.1",
     "requests==2.28.2",
-    "openai==0.26.5"
+    "openai==0.26.5",
+    "python-dotenv==0.21.1"
 ]
 
 [project.optional-dependencies]
