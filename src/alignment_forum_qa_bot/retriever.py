@@ -6,8 +6,8 @@ from typing import TypedDict, List
 
 from dotenv import load_dotenv
 
-from alignment_forum_qa_bot.parse_raw_data import parse_raw_data
 from alignment_forum_qa_bot.get_data import download_posts
+from alignment_forum_qa_bot.parse_af_post_json import parse_posts_raw
 
 load_dotenv()
 
@@ -61,7 +61,7 @@ class KeywordSearchRetriever(Retriever):
 
         with open(data_dir / "posts.json") as f:
             posts = json.load(f)
-        self.paragraphs = parse_raw_data(posts)
+        self.paragraphs = parse_posts_raw(posts)
 
     def retrieve(self, query: str) -> List[RetrievedParagraph]:
         relevant_paragraphs = self.paragraphs[self.paragraphs["paragraph"].apply(lambda x: query in x)]
