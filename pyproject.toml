@@ -28,7 +28,8 @@ description = "A boilerplate package."
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
-    "tqdm>=4.64.1"
+    "tqdm>=4.64.1",
+    "requests==2.28.2"
 ]
 
 [project.optional-dependencies]
