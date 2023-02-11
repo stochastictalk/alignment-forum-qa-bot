@@ -19,7 +19,7 @@ class QABot:
 
         self._post_retriever = StubRetriever()
 
-    def query(self, text: str) -> str:
+    def query(self, query_text: str) -> str:
         """Asks a question about alignment forum's post corpus using OpenAI's completion API.
 
         Parameters
@@ -27,8 +27,8 @@ class QABot:
         text : str
             The query input by the Alignment Forum user.
         """
-        posts = self._post_retriever.retrieve(query=text)
-        prompt = self._get_prompt(text, posts)
+        posts = self._post_retriever.retrieve(query=query_text)
+        prompt = self._get_prompt(query_text, posts)
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=prompt,
@@ -41,6 +41,6 @@ class QABot:
         )
         return response
 
-    def _get_prompt(self, prompt_text: str, posts: List[RetrievedParagraph]):
+    def _get_prompt(self, query_text: str, posts: List[RetrievedParagraph]):
         """Maps posts and question to prompt."""
         return "Prompt pending! @TODO"
