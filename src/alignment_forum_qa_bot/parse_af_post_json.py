@@ -20,15 +20,14 @@ def html_to_paragraphs(html_str: str) -> str:
     return texts
 
 
-def read_comments_json() -> list[dict[str, Any]]:
-
+def read_posts_json() -> list[dict[str, Any]]:
     data_dir = Path(os.environ["DATA_DIR"])
     with (data_dir / "posts.json").open("r") as f:
         comments_raw = json.load(f)
     return comments_raw
 
 
-def parse_comments_raw() -> pd.DataFrame:
+def parse_posts_raw() -> pd.DataFrame:
     """Opens the raw retrieved Alignment Forum comments and parses them.
     Returns a data frame with author, title, paragraph columns. For each
     paragraph that passes the filtering.
@@ -38,23 +37,26 @@ def parse_comments_raw() -> pd.DataFrame:
     """
 
     MIN_LEN_PARAGRAPH = 50
-    comments_raw = read_comments_json()
-    comments_raw = pd.DataFrame(comments_raw)
-    comments_raw_mask = ~comments_raw.user.isna()
-    comments_raw_mask &= ~comments_raw.htmlBody.isna()
-    comments_raw_mask &= comments_raw.htmlBody != ""
-    comments_raw = comments_raw.loc[comments_raw_mask]
+    posts_raw = read_posts_json()
+    posts_raw = pd.DataFrame(posts_raw)
+    comments_raw_mask = ~posts_raw.user.isna()
+    comments_raw_mask &= ~posts_raw.htmlBody.isna()
+    comments_raw_mask &= posts_raw.htmlBody != ""
+    posts_raw = posts_raw.loc[comments_raw_mask]
 
-    comments_raw["author"] = comments_raw.user.apply(lambda e: e["username"])
-    comments_raw = comments_raw.drop(columns="user")
+    posts_raw["author"] = posts_raw.user.apply(lambda e: e["username"])
+    posts_raw = posts_raw.drop(columns="user")
     with Pool() as p:
-        bodies = p.map(html_to_paragraphs, comments_raw["htmlBody"].to_list())
-    comments_raw["paragraph"] = bodies
-    comments_raw["n_paragraphs"] = comments_raw["paragraph"].apply(len)
-    comments_raw = comments_raw.explode(column="paragraph", ignore_index=True)
-    comments_raw = comments_raw.dropna()  # drops a handful of empty paragraphs
-    comments_raw["len_paragraph"] = comments_raw["paragraph"].apply(len)
+        bodies = p.map(html_to_paragraphs, posts_raw["htmlBody"].to_list())
+    posts_raw["paragraph"] = bodies
+    posts_raw["n_paragraphs"] = posts_raw["paragraph"].apply(len)
+    posts_raw = posts_raw.explode(column="paragraph", ignore_index=True)
+    posts_raw = posts_raw.dropna()  # drops a handful of empty paragraphs
+    posts_raw["len_paragraph"] = posts_raw["paragraph"].apply(len)
     # for MIN_LEN_PARAGRAPH = 50 this takes out about a third of the paragraphs,
     # which are probably too short to hold relevant information
-    comments = comments_raw.loc[comments_raw["len_paragraph"] > MIN_LEN_PARAGRAPH, ["author", "title", "paragraph"]]
-    return comments
+    posts = posts_raw.loc[
+        posts_raw["len_paragraph"] > MIN_LEN_PARAGRAPH,
+        ["author", "title", "paragraph"],
+    ]
+    return posts

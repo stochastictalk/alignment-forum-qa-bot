@@ -1,12 +1,9 @@
 from abc import ABC
-import json
-import os
-from pathlib import Path
 from typing import TypedDict
 
 from dotenv import load_dotenv
 
-from alignment_forum_qa_bot.parse_raw_data import parse_raw_data
+from alignment_forum_qa_bot.parse_af_post_json import parse_posts_raw
 
 load_dotenv()
 
@@ -53,10 +50,7 @@ class StubRetriever(Retriever):
 
 class KeywordSearchRetriever(Retriever):
     def __init__(self):
-        data_dir = Path(os.environ["DATA_DIR"])
-        with open(data_dir / "posts.json") as f:
-            posts = json.load(f)
-        self.paragraphs = parse_raw_data(posts)
+        self.paragraphs = parse_posts_raw()
 
     def retrieve(self, query: str) -> list[RetrievedParagraph]:
         relevant_paragraphs = self.paragraphs[self.paragraphs["paragraph"].apply(lambda x: query in x)]
