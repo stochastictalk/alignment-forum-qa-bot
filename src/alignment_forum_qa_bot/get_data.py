@@ -9,7 +9,7 @@ def main():
 
 
 def get_posts():
-    posts_query = "{ posts { results { title author htmlBody } } }"
+    posts_query = "{ posts { results { title htmlBody user {username} } } }"
     response = requests.post("https://www.alignmentforum.org/graphql", json={"query": posts_query})
     return response.json()["data"]["posts"]["results"]
 
