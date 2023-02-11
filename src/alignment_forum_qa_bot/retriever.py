@@ -1,5 +1,15 @@
 from abc import ABC
+from pathlib import Path
+import pickle
 from typing import TypedDict
+import os
+
+import pandas as pd
+
+from alignment_forum_qa_bot.normalizer import Normalizer
+
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 from dotenv import load_dotenv
 
@@ -57,6 +67,35 @@ class KeywordSearchRetriever(Retriever):
         return relevant_paragraphs.to_dict(orient="records")
 
 
+class TFIDFRetreiver(Retriever):
+    def __init__(self, threshold=0.8):
+        self.raw_paragraphs = parse_posts_raw()
+        self.normalizer = Normalizer()
+        self.tfidf_vectorizer = self.load_tfidf_vectorizer()
+        self.normalized_paragraphs = self.load_normalized_paragraphs()
+        self.corpus_vectors = self.bow_transform(self.normalized_paragraphs)
+        self.threshold = threshold
+
+    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+        query = self.normalizer.norm_sent(query)
+        query_vector = self.tfidf_vectorizer.transform([query])
+        scores = cosine_similarity(query_vector, self.corpus_vectors).flatten()
+        should_keep = scores > self.threshold
+        return self.raw_paragraphs[should_keep].to_dict(orient="records")
+
+    def bow_transform(self, data):
+        return self.tfidf_vectorizer.transform(data["paragraph_processed"])
+
+    def load_tfidf_vectorizer(self):
+        path = Path(os.environ["DATA_DIR"]) / "tfidf_vectorizer.pkl"
+        with path.open("rb") as f:
+            return pickle.load(f)
+
+    def load_normalized_paragraphs(self):
+        path = Path(os.environ["DATA_DIR"]) / "normalized_paragraphs.parquet"
+        return pd.read_parquet(path)
+
+
 if __name__ == "__main__":
-    retriever = KeywordSearchRetriever()
+    retriever = TFIDFRetreiver(threshold=0.5)
     print(retriever.retrieve("RLHF"))
