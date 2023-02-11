@@ -15,9 +15,10 @@ class QABot:
     def query(text: str) -> str:
         """Asks a question about alignment forum's post corpus using OpenAI's completion API."""
         prompt = text
+        posts = ["I think AI will do good soon.", "I think AI will do evil things in 100 years."]  # Stub.
         response = openai.Completion.create(
             model="text-davinci-003",
-            prompt=prompt,
+            prompt=prompt + posts,
             temperature=0.8,
             max_tokens=60,
             top_p=1,
