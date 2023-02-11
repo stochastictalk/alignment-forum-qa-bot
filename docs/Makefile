@@ -7,7 +7,7 @@ SPHINXBUILD   = sphinx-build
 BUILDDIR      = ../build/sphinx/
 AUTODOCDIR    = api/
 AUTODOCBUILD  = sphinx-apidoc
-PROJECT       = boilerplate
+PROJECT       = alignment_forum_qa_bot
 MODULEDIR     = ../
 
 # Check for sphinx-build

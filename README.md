@@ -1,6 +1,6 @@
-# 🫖 Boilerplate
+# 🫖 alignment_forum_qa_bot
 
-![](https://img.shields.io/github/actions/workflow/status/stochastictalk/python-package-boilerplate/python-package.yml) ![](https://img.shields.io/github/v/release/stochastictalk/python-package-boilerplate?display_name=tag) ![](https://img.shields.io/github/stars/stochastictalk/python-package-boilerplate?style=social)
+![](https://img.shields.io/github/actions/workflow/status/stochastictalk/python-package-alignment_forum_qa_bot/python-package.yml) ![](https://img.shields.io/github/v/release/stochastictalk/python-package-alignment_forum_qa_bot?display_name=tag) ![](https://img.shields.io/github/stars/stochastictalk/python-package-alignment_forum_qa_bot?style=social)
 
 A minimal Python package with tools for documentation, linting, formatting and testing.
 

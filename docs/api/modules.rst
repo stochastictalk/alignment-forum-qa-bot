@@ -4,4 +4,4 @@ src
 .. toctree::
    :maxdepth: 4
 
-   boilerplate
+   alignment_forum_qa_bot

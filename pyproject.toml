@@ -1,4 +1,4 @@
-# Replace every appearance of 'boilerplate' with package name.
+# Replace every appearance of 'alignment_forum_qa_bot' with package name.
 
 [build-system]
 requires = [
@@ -16,15 +16,15 @@ where = ["src"]
 namespaces = true
 
 [tool.setuptools_scm]
-write_to = "src/boilerplate/_version.py"
+write_to = "src/alignment_forum_qa_bot/_version.py"
 
 [tool.ruff]
 line-length = 120
 
 [project]
-name = "package-boilerplate"
+name = "package-alignment-forum-qa-bot"
 dynamic = ["version"]
-description = "A boilerplate package."
+description = "Wrangling AF into a nice form for forecasters."
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [

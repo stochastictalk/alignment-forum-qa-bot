@@ -1,8 +1,8 @@
 =============================
-boilerplate
+alignment_forum_qa_bot
 =============================
 
-**boilerplate** is a minimal Python package with tools for documentation, linting, formatting and testing.
+**alignment_forum_qa_bot** is a minimal Python package with tools for documentation, linting, formatting and testing.
 
 
 Contents
@@ -18,8 +18,8 @@ Contents
 
 Modules
 =======
-* :doc:`boilerplate </api/boilerplate>` - top-level package.
-* :doc:`boilerplate.subboilerplate </api/boilerplate.subboilerplate>` - subpackage.
+* :doc:`alignment_forum_qa_bot </api/alignment_forum_qa_bot>` - top-level package.
+* :doc:`alignment_forum_qa_bot.subalignment_forum_qa_bot </api/alignment_forum_qa_bot.subalignment_forum_qa_bot>` - subpackage.
 
 
 
