@@ -44,7 +44,7 @@ class QABot:
         author_post_pairs = list(posts_by_author.items())
         result = ""
         for author, posts in author_post_pairs[:5]:
-            result += f"{author}'s views:\n\n"
+            result += f"{author}'s views:\n"
             prompt_for_author_posts = self._get_prompt_for_author_posts(posts, query_text)
             completion = self._get_response_for_author_prompt(prompt_for_author_posts)
             result += completion + "\n\n"
@@ -64,12 +64,7 @@ class QABot:
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=author_prompt,
-            # temperature=0.8,
             max_tokens=2000,
-            # top_p=1,
-            # frequency_penalty=0,
-            # presence_penalty=0,
-            # stop=["\n"],
         )
         return response["choices"][0]["text"]
 
