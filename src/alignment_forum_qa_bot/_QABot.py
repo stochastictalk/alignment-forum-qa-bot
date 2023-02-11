@@ -13,7 +13,13 @@ class QABot:
             openai.api_key = "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"
 
     def query(text: str) -> str:
-        """Asks a question about alignment forum's post corpus using OpenAI's completion API."""
+        """Asks a question about alignment forum's post corpus using OpenAI's completion API.
+
+        Parameters
+        ----------
+        text : str
+            The query input by the Alignment Forum user.
+        """
         prompt = text
         posts = ["I think AI will do good soon.", "I think AI will do evil things in 100 years."]  # Stub.
         response = openai.Completion.create(
