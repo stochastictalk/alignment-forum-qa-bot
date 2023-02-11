@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 import json
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -9,7 +8,7 @@ from typing import Any
 
 
 def html_to_paragraphs(html_str: str) -> str:
-    soup = BeautifulSoup(html_str)
+    soup = BeautifulSoup(html_str, features="html.parser")
     texts = []
     for para in soup.find_all("p"):
         text = unicodedata.normalize("NFKD", para.text)
@@ -17,16 +16,25 @@ def html_to_paragraphs(html_str: str) -> str:
     return texts
 
 
-def read_comments_json():
-    data_dir = Path(os.environ["DATA_DIR"])
-    # data_dir = Path('/home/torsten/coding_projects/alignment-forum-qa-bot_data')
+def read_comments_json() -> list[dict[str, Any]]:
+    # data_dir = Path(os.environ["DATA_DIR"])
+    data_dir = Path("/home/torsten/coding_projects/alignment-forum-qa-bot_data")
     with (data_dir / "posts.json").open("r") as f:
         comments_raw = json.load(f)
     return comments_raw
 
 
-def parse_comments_raw(comments_raw: list[dict[str, Any]]) -> pd.DataFrame:
+def parse_comments_raw() -> pd.DataFrame:
+    """Opens the raw retrieved Alignment Forum comments and parses them.
+    Returns a data frame with author, title, paragraph columns. For each
+    paragraph that passes the filtering.
+
+    Returns:
+        pd.DataFrame: Parsed paragraphs table
+    """
+
     MIN_LEN_PARAGRAPH = 50
+    comments_raw = read_comments_json()
     comments_raw = pd.DataFrame(comments_raw)
     comments_raw_mask = ~comments_raw.user.isna()
     comments_raw_mask &= ~comments_raw.htmlBody.isna()
