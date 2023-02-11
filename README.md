@@ -1,62 +1,34 @@
-# 🫖 alignment_forum_qa_bot
+# `ai_forum_qa_bot`
 
-![](https://img.shields.io/github/actions/workflow/status/stochastictalk/python-package-alignment_forum_qa_bot/python-package.yml) ![](https://img.shields.io/github/v/release/stochastictalk/python-package-alignment_forum_qa_bot?display_name=tag) ![](https://img.shields.io/github/stars/stochastictalk/python-package-alignment_forum_qa_bot?style=social)
-
-A minimal Python package with tools for documentation, linting, formatting and testing.
-
-- 📜 Docs: `sphinx`
-- 🧰 Linting: `ruff`
-- ⚫ Autoformatting: `black`
-- 🧪 Testing: `pytest`
+`ai_forum_qa_bot` is a Python package that allows question-answer interaction with the entire corpus of Alignment Forum posts. 
 
 
-## Quickstart
+## Developer Quickstart
 
-First, prove to yourself the package installs correctly, its tests run, and its documentation compiles.
-
-If you're using Docker, launch a Python container and connect to its shell
+First thing to do is to create a virtual environment. Install `virtualenv` using
 ```
-docker run -it -p 3527:3527 -v ${PWD}:/package python:3.9 /bin/bash
+pip install virtualenv
 ```
+Then create a virtual environment with
+```
+python -m virtualenv venv
+```
+This creates a virtual environment called "venv". Activate it via
+```
+source venv/bin/activate
+```
+Great! Now you're ready to install the package.
 
 Install the development version of the package in editable mode to the environment with
 ```
 pip install -e '.[develop]'
 ```
-The package's configuration is in `pyproject.toml` (summary [here](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)). The directory structure follows the src layout ([details](https://setuptools.pypa.io/en/latest/userguide/package_discovery.html)). Its version is managed using `setuptools_scm`, meaning version numbers are automatically extracted from git tags: you can read about the versioning logic [here](https://pypi.org/project/setuptools-scm/).
+The package's configuration is in `pyproject.toml` (summary [here](https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html)). If you need a dependency, add it to this file.
 
-Install the precommit hooks:
+Test the package install by opening Python and running `import ai_forum_qa_bot`.
+
+The precommit hooks provide linting and autoformatting. Install them by running
 ```
 pre-commit install
 ```
-You can edit the config of these in `.pre-commit-config.yaml`.
-
-Check the tests run:
-```
-pytest
-```
-Compile the documentation:
-```
-cd docs
-make html
-```
-Host the resulting doc HTMLs using Python's webserver:
-```
-python -m http.server 3527 -d ../build/sphinx/html
-``` 
-Open a web browser on the host and go to `localhost:3527`. You should see the docs.
-
-To start developing in the context of your own git repo, delete the `.git` directory and initialize a new one with `git init`. 
-
-![Screenshot of rendered documentation](assets/docs-screenshot.png)
-
-
-Finally, to create a wheel and sdist for your package:
-```
-python -m build --wheel
-```
-They will be output to a directory `dist/`.
-
-Enjoy! 🫖
-
-Shields courtesy of [shields.io](https://shields.io/).
+These will run automatically each time you commit.
