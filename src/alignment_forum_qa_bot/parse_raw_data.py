@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict, List
 import pandas as pd
 
 
@@ -8,7 +8,7 @@ class RawData(TypedDict):
     htmlBody: str
 
 
-def parse_raw_data(raw_data: list[RawData]):
+def parse_raw_data(raw_data: List[RawData]):
     titles = []
     authors = []
     paragraphs = []

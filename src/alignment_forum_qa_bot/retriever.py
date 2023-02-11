@@ -2,11 +2,12 @@ from abc import ABC
 import json
 import os
 from pathlib import Path
-from typing import TypedDict
+from typing import TypedDict, List
 
 from dotenv import load_dotenv
 
 from alignment_forum_qa_bot.parse_raw_data import parse_raw_data
+from alignment_forum_qa_bot.get_data import download_posts
 
 load_dotenv()
 
@@ -21,12 +22,12 @@ class Retriever(ABC):
     def __init__(self):
         ...
 
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         raise NotImplementedError
 
 
 class StubRetriever(Retriever):
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         return [
             {
                 "title": "RLFH IS SHIT",
@@ -54,11 +55,15 @@ class StubRetriever(Retriever):
 class KeywordSearchRetriever(Retriever):
     def __init__(self):
         data_dir = Path(os.environ["DATA_DIR"])
+
+        if not data_dir.exists():
+            download_posts()
+
         with open(data_dir / "posts.json") as f:
             posts = json.load(f)
         self.paragraphs = parse_raw_data(posts)
 
-    def retrieve(self, query: str) -> list[RetrievedParagraph]:
+    def retrieve(self, query: str) -> List[RetrievedParagraph]:
         relevant_paragraphs = self.paragraphs[self.paragraphs["paragraph"].apply(lambda x: query in x)]
         return relevant_paragraphs.to_dict(orient="records")
 

@@ -2,7 +2,7 @@ from typing import List
 
 import openai
 
-from .retriever import StubRetriever
+from .retriever import KeywordSearchRetriever
 from .retriever import RetrievedParagraph
 
 
@@ -17,7 +17,7 @@ class QABot:
         if openai_api_key is None:
             openai.api_key = "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"
 
-        self._post_retriever = StubRetriever()
+        self._post_retriever = KeywordSearchRetriever()
 
     def query(self, query_text: str) -> str:
         """Asks a question about alignment forum's post corpus using OpenAI's completion API.
