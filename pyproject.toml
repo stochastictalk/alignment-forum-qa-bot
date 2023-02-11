@@ -1,0 +1,43 @@
+# Replace every appearance of 'boilerplate' with package name.
+
+[build-system]
+requires = [
+    "setuptools>=64",
+    "setuptools_scm[toml]>=6.2" # For version numbers from git.
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = true
+
+[tool.setuptools_scm]
+write_to = "src/boilerplate/_version.py"
+
+[tool.ruff]
+line-length = 120
+
+[project]
+name = "package-boilerplate"
+dynamic = ["version"]
+description = "A boilerplate package."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "tqdm>=4.64.1"
+]
+
+[project.optional-dependencies]
+develop = [
+    "pytest",
+    "pytest-cov",
+    "black>=22.3.0",
+    "pre-commit>=2.20.0",
+    "ruff",
+    "furo>=2022.12.7",
+    "build>=0.10.0" 
+]
