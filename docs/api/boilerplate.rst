@@ -1,4 +1,4 @@
-boilerplate package
+alignment_forum_qa_bot package
 ===================
 
 Subpackages
@@ -7,12 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   boilerplate.subboilerplate
+   alignment_forum_qa_bot.subalignment_forum_qa_bot
 
 Module contents
 ---------------
 
-.. automodule:: boilerplate
+.. automodule:: alignment_forum_qa_bot
    :members:
    :undoc-members:
    :show-inheritance:
