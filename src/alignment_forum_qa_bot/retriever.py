@@ -70,7 +70,7 @@ class KeywordSearchRetriever(Retriever):
         return relevant_paragraphs.to_dict(orient="records")
 
 
-class TFIDFRetreiver(Retriever):
+class TFIDFRetriever(Retriever):
     def __init__(self, threshold=0.8):
         self.raw_paragraphs = parse_posts_raw()
         self.normalizer = Normalizer()
@@ -100,5 +100,5 @@ class TFIDFRetreiver(Retriever):
 
 
 if __name__ == "__main__":
-    retriever = TFIDFRetreiver(threshold=0.5)
+    retriever = TFIDFRetriever(threshold=0.5)
     print(retriever.retrieve("RLHF"))
