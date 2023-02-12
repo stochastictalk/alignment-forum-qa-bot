@@ -50,7 +50,7 @@ class QABot:
             result += completion + "\n\n"
         return result
 
-    def _get_prompt_for_author_posts(self, posts: list[str], query_text: str):
+    def _get_prompt_for_author_posts(self, posts: List[str], query_text: str):
         prompt = f"""
         I'm going to show you some sample paragraphs written by a user on the Alignment Forum.
         Please summarize the views of this author on {query_text} in less than 200 words.
