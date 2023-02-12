@@ -1,5 +1,7 @@
 # 📏💬 `alignment_forum_qa_bot`
 
+![](https://img.shields.io/github/stars/stochastictalk/alignment-forum-qa-bot?style=social)
+
 `alignment_forum_qa_bot` is a Python package that retrieves and summarizes [Alignment Forum](https://www.alignmentforum.org/) posts based on a keyword search. We built it over about 8 hours at the first EA London hackathon on 11th February 2023.
 
 Here's a screenshot of the Streamlit prototype:
