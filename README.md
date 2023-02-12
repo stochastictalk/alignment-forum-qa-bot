@@ -82,3 +82,9 @@ The precommit hooks provide linting and autoformatting. Install them by running
 pre-commit install
 ```
 These will run automatically each time you commit.
+
+To run the streamlit app, execute
+```
+streamlit run app.py
+```
+Then open your browser and go to whichever port the server's listening on.
